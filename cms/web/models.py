@@ -29,8 +29,8 @@ class User(models.Model):
 class Service(models.Model):
     name = models.CharField(max_length=30, blank=False)
     review = models.CharField(max_length=100)
-    description = models.CharField(max_length=100)
-    price = models.FloatField()
+    description = models.CharField(max_length=100, blank=False)
+    price = models.FloatField(blank=False)
     benefits = models.CharField()
     number_of_appointments = models.IntegerField()
 
