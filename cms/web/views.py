@@ -4,8 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import json
 from .models import *
-from utils.util import *
-from service.service_handlers import *
+from .utils.util import *
+from .service.service_handlers import *
+from .personel.personel_handlers import *
 
 
 @csrf_exempt
@@ -114,3 +115,18 @@ def service(request, id):
     else:
         if request.method == "POST":
             add_service(request)
+
+
+@csrf_exempt
+@require_http_methods(["GET", "POST", "PUT", "DELETE"])
+def personel(request, id):
+    if id:
+        if request.method == "GET":
+            get_personel(request, id)
+        if request.method == "PUT":
+            update_personel(request, id)
+        if request.method == "DELETE":
+            delete_personel(request, id)
+    else:
+        if request.method == "POST":
+            create_personel(request)

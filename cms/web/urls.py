@@ -8,4 +8,6 @@ urlpatterns = [
     path("user-signin", views.user_sign_in, name="user-signin"),
     path("service", views.service, name="service-post"),
     path("service/<int:id>", views.service, name="service-RUD"),
+    path("personel", views.personel, name="personel create"),
+    path("personel/<int:id>", views.personel, name="personel RUD"),
 ]
