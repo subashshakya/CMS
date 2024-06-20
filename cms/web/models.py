@@ -1,5 +1,11 @@
 from django.db import models
-from django.core.validators import RegexValidator
+from django.core.validators import (
+    RegexValidator,
+    EmailValidator,
+    MinValueValidator,
+    MaxValueValidator,
+    MaxLengthValidator,
+)
 
 
 class User(models.Model):
@@ -36,11 +42,25 @@ class Service(models.Model):
 
 
 class Personel(models.Model):
-    title = models.CharField(max_length=20, blank=False)
-    first_name = models.CharField(max_length=30, blank=False)
+    title = models.CharField(
+        max_length=20,
+        blank=False,
+        validators=[MaxValueValidator(20), MinValueValidator(3)],
+    )
+    first_name = models.CharField(
+        max_length=30,
+        blank=False,
+        validators=[MaxValueValidator(30), MinValueValidator(1)],
+    )
     middle_name = models.CharField()
-    last_name = models.CharField(max_length=30, blank=False)
-    email = models.EmailField()
+    last_name = models.CharField(
+        max_length=30,
+        blank=False,
+        validators=[MaxValueValidator(30), MinValueValidator(1)],
+    )
+    email = models.EmailField(
+        blank=False, validators=[EmailValidator(message="Enter a valid email")]
+    )
     available_time = models.DurationField()
     phone_number = models.CharField(
         max_length=10,
@@ -53,7 +73,7 @@ class Personel(models.Model):
         ],
         blank=False,
     )
-    specialization_desc = models.TextField()
+    specialization_desc = models.TextField(validators=[MaxLengthValidator(100)])
 
 
 class Appointment(models.Model):
