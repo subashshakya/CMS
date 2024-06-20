@@ -2,7 +2,7 @@ import json
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.http import JsonResponse
 from ..models import Service
-from utils.util import *
+from ..utils.util import *
 from django.core import serializers
 from django.db.models import Q
 
@@ -118,7 +118,7 @@ def update_service(request, id):
             status=400,
         )
     try:
-        service = Service.objects.get(pk=id)
+        service = Service.objects.get(pk=service_id)
     except ObjectDoesNotExist as e:
         return JsonResponse(
             {
@@ -168,7 +168,10 @@ def delete_service(request, id):
             status=400,
         )
     try:
-        service = Service.objects.delete(pk=id)
+        Service.objects.delete(pk=id)
+        return JsonResponse(
+            {"success": True, "message": "Service delete successfully"}, status=200
+        )
     except ObjectDoesNotExist as e:
         return JsonResponse(
             {
