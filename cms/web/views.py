@@ -3,7 +3,9 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError, ObjectDoesNotExist
 import json
-from .models import User
+from .models import *
+from utils.util import *
+from service.service_handlers import *
 
 
 @csrf_exempt
@@ -97,3 +99,18 @@ def user_sign_in(request):
             {"success": False, "message": "Could not match fields, please try again."},
             status=400,
         )
+
+
+@csrf_exempt
+@require_http_methods(["GET", "POST", "PUT", "DELETE"])
+def service(request, id):
+    if id:
+        if request.method == "GET":
+            get_service(request, id)
+        if request.method == "PUT":
+            update_service(request, id)
+        if request.method == "DELETE":
+            delete_service(request, id)
+    else:
+        if request.method == "POST":
+            add_service(request)
